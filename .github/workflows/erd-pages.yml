@@ -5,8 +5,8 @@ on:
     branches:
       - main
     # If you only want to trigger this when the schema file is updated:
-    paths:
-      - prisma/*.prisma
+    # paths:
+    #  - prisma/*.prisma
     #   - db/schema.rb
     #   - db/structure.sql
     #   - prisma/schema.prisma
