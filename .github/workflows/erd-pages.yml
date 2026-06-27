@@ -18,6 +18,9 @@ permissions:
 
 jobs:
   build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -31,12 +34,13 @@ jobs:
       - name: Generate ER Diagram
         # You can specify a custom output directory with --output-dir option if needed
         run: liam erd build --input ./prisma/*.prisma --format=prisma
-      # 3. Publish the build artifacts (dist folder) to a static hosting service
-      #    Here, we show an example using GitHub Pages.
-      # NOTE: To keep your GitHub Pages site private,
-      # your organization must be on GitHub Enterprise Cloud.
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
+          # Upload entire repository
+          path: 'dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
