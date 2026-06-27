@@ -1,0 +1,109 @@
+{
+  "tables": {
+    "employee": {
+      "name": "employee",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "companyId": {
+          "name": "companyId",
+          "type": "integer",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "employee_pkey": {
+          "name": "employee_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        },
+        "companyToemployee": {
+          "type": "FOREIGN KEY",
+          "name": "companyToemployee",
+          "columnNames": [
+            "companyId"
+          ],
+          "targetTableName": "company",
+          "targetColumnNames": [
+            "id"
+          ],
+          "updateConstraint": "NO_ACTION",
+          "deleteConstraint": "NO_ACTION"
+        }
+      }
+    },
+    "company": {
+      "name": "company",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "notNull": true,
+          "comment": null,
+          "check": null
+        }
+      },
+      "comment": null,
+      "indexes": {
+        "company_pkey": {
+          "name": "company_pkey",
+          "unique": true,
+          "columns": [
+            "id"
+          ],
+          "type": ""
+        }
+      },
+      "constraints": {
+        "PRIMARY_id": {
+          "type": "PRIMARY KEY",
+          "name": "PRIMARY_id",
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {},
+  "extensions": {}
+}
