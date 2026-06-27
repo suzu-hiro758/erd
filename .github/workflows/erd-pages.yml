@@ -10,10 +10,6 @@ on:
     #   - db/schema.rb
     #   - db/structure.sql
     #   - prisma/schema.prisma
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 
 jobs:
   build-and-deploy:
