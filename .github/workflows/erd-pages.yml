@@ -10,12 +10,17 @@ on:
     #   - db/schema.rb
     #   - db/structure.sql
     #   - prisma/schema.prisma
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v4
 
       # 1. Install the Liam ERD CLI
       - name: Install Liam ERD CLI
@@ -30,7 +35,17 @@ jobs:
       # NOTE: To keep your GitHub Pages site private,
       # your organization must be on GitHub Enterprise Cloud.
       - name: Deploy to GitHub Pages
-        uses: actions-gh-pages/action@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: dist
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
