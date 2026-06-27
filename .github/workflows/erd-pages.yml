@@ -1,0 +1,36 @@
+name: Deploy ERD on every commit
+
+on:
+  push:
+    branches:
+      - main
+    # If you only want to trigger this when the schema file is updated:
+    paths:
+      - prisma/*.prisma
+    #   - db/schema.rb
+    #   - db/structure.sql
+    #   - prisma/schema.prisma
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Install the Liam ERD CLI
+      - name: Install Liam ERD CLI
+        run: npm install -g @liam-hq/cli
+
+      # 2. Generate the ER diagram
+      - name: Generate ER Diagram
+        # You can specify a custom output directory with --output-dir option if needed
+        run: liam erd build --input ./prisma/*.prisma --format=prisma
+      # 3. Publish the build artifacts (dist folder) to a static hosting service
+      #    Here, we show an example using GitHub Pages.
+      # NOTE: To keep your GitHub Pages site private,
+      # your organization must be on GitHub Enterprise Cloud.
+      - name: Deploy to GitHub Pages
+        uses: actions-gh-pages/action@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist
